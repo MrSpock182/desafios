@@ -3,29 +3,54 @@ package estrutura;
 import java.util.List;
 
 public class OrdenandoRgb {
+	private int indexLetraR;
+	private int indexLetraB;
 
 	public List<String> ordernar(List<String> list) {
-		int index = 0;
+		indexLetraR = 0;
+		indexLetraB = list.size() - 1;
 
 		for (int i = 0; i < list.size(); i++) {
-			if(list.get(i).equals("R")) {
-				String value = list.get(index);
-				list.set(index, list.get(i));
-				list.set(i, value);
-				index = index + 1;
-			}
-		}
-
-		for (int i = index; i < list.size(); i++) {
-			if(list.get(i).equals("G")) {
-				String value = list.get(index);
-				list.set(index, list.get(i));
-				list.set(i, value);
-				index = index + 1;
-			}
+			ordernarLetraR(i, list);
+			ordernarLetraB(i, list);
 		}
 
 		return list;
 	}
 
+	private void ordernarLetraR(int i, List<String> list) {
+		if (list.get(i).equals("R")) {
+			String value = list.get(indexLetraR);
+			list.set(indexLetraR, list.get(i));
+			list.set(i, value);
+			indexLetraR = indexLetraR + 1;
+		}
+
+	}
+
+	private void ordernarLetraB(int i, List<String> list) {
+		if (list.get(i).equals("B") && indexLetraB > i) {
+			String value = list.get(indexLetraB);
+
+			if (!value.equals("R")) {
+				list.set(indexLetraB, list.get(i));
+				list.set(i, value);
+			} else {
+				ordernarLetraRDepoisB(i, value, list);
+			}
+
+			indexLetraB = indexLetraB - 1;
+		}
+	}
+
+	private void ordernarLetraRDepoisB(int i, String value, List<String> list) {
+		String valueR = list.get(indexLetraR);
+		list.set(indexLetraR, value);
+		list.set(indexLetraB, valueR);
+		list.set(indexLetraB, list.get(i));
+		list.set(i, valueR);
+		indexLetraR = indexLetraR + 1;
+	}
+
 }
+
